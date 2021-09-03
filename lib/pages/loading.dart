@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:sample/services/world-time.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -8,30 +8,32 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  void getTime() async {
-    Response response =
-        await get(Uri.parse("http://worldtimeapi.org/api/timezone/Asia/Dhaka"));
-    Map data = jsonDecode(response.body);
-    // print(data);
-
-    String dateTime = data['datetime'];
-    String offset = data['utc_offset'];
-    // print(dateTime);
-    // print(offset);
-    DateTime now = DateTime.parse(dateTime);
-    print(now);
+  void setupWorldTime() async {
+    var worldTime = WorldTime('Dhaka', 'BD', 'Asia/Dhaka');
+    await worldTime.getTime();
+    Navigator.pushReplacementNamed(context, '/home', arguments: {
+      'location': worldTime.location,
+      'flag': worldTime.flag,
+      'time': worldTime.time,
+      'isDayTime': worldTime.isDayTime,
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    getTime();
+    setupWorldTime();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('data bhgvhn'),
-    );
+        backgroundColor: Colors.grey[100],
+        body: Center(
+          child: SpinKitCubeGrid(
+            color: Colors.blueAccent,
+            size: 60,
+          ),
+        ));
   }
 }
