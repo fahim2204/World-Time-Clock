@@ -10,18 +10,21 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context)?.settings.arguments as Map;
+    data = data.isNotEmpty
+        ? data
+        : ModalRoute.of(context)?.settings.arguments as Map;
     print(data);
 
     String bgImage = data['isDayTime'] ? 'day.jpg' : 'night.jpg';
-    Color titleBarColor = data['isDayTime'] ? Colors.blue : Colors.blueAccent;
+    Color titleBarColor = data['isDayTime'] ? Colors.blue : Colors.black;
+    Color fontColor = data['isDayTime'] ? Colors.black : Colors.white;
     return Scaffold(
       backgroundColor: titleBarColor,
       body: SafeArea(
           child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage('assets/images/day.jpg'),
+          image: AssetImage('assets/images/$bgImage'),
           fit: BoxFit.cover,
         )),
         child: Padding(
@@ -29,19 +32,30 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               FlatButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/location');
+                onPressed: () async {
+                  dynamic result =
+                      await Navigator.pushNamed(context, '/location');
+                  if (result != null) {
+                    setState(() {
+                      data = {
+                        'time': result['time'],
+                        'location': result['location'],
+                        'isDayTime': result['isDayTime'],
+                        'flag': result['flag'],
+                      };
+                    });
+                  }
                 },
                 icon: Icon(
                   Icons.edit_location,
-                  color: Colors.grey[100],
+                  color: Colors.black,
                 ),
                 label: Text(
                   'Edit Location',
                   style: TextStyle(
                     fontSize: 20,
                     letterSpacing: 2,
-                    color: Colors.limeAccent,
+                    color: fontColor,
                   ),
                 ),
               ),
@@ -56,6 +70,7 @@ class _HomeState extends State<Home> {
                     style: TextStyle(
                       fontSize: 28,
                       letterSpacing: 3,
+                      color: fontColor,
                     ),
                   )
                 ],
@@ -72,6 +87,7 @@ class _HomeState extends State<Home> {
                       fontSize: 45,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 5,
+                      color: fontColor,
                     ),
                   )
                 ],

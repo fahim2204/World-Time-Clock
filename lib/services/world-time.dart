@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class WorldTime {
-  late String location = "Asia/Dhaka";
+  late String location;
   late String time;
   late String flag;
   late String url;
   late bool isDayTime;
 
-  WorldTime(location, flag, url) {
+  WorldTime(url, location, flag) {
     this.location = location;
     this.flag = flag;
     this.url = url;

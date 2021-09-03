@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sample/services/world-time.dart';
+import 'package:world_time_viewer/services/world-time.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatefulWidget {
@@ -9,7 +9,7 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   void setupWorldTime() async {
-    var worldTime = WorldTime('Dhaka', 'BD', 'Asia/Dhaka');
+    var worldTime = WorldTime('Asia/Dhaka', 'Dhaka', 'BD');
     await worldTime.getTime();
     Navigator.pushReplacementNamed(context, '/home', arguments: {
       'location': worldTime.location,

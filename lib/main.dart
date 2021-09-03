@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sample/pages/choose-location.dart';
-import 'package:sample/pages/home.dart';
-import 'package:sample/pages/loading.dart';
+import 'package:world_time_viewer/pages/choose-location.dart';
+import 'package:world_time_viewer/pages/home.dart';
+import 'package:world_time_viewer/pages/loading.dart';
 
 void main() {
   runApp(MaterialApp(
